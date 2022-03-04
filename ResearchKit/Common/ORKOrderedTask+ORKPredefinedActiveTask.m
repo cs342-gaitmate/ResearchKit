@@ -32,7 +32,6 @@
 
 #import "ORKOrderedTask+ORKPredefinedActiveTask.h"
 #import "ORKOrderedTask_Private.h"
-
 #import "ORKAudioStepViewController.h"
 #import "ORKAmslerGridStepViewController.h"
 #import "ORKCountdownStepViewController.h"
@@ -803,18 +802,41 @@ NSString *const ORKShortWalkRestStepIdentifier = @"walking.rest";
     NSMutableArray *steps = [NSMutableArray array];
     if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
         {
-            ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction0StepIdentifier];
-            step.title = ORKLocalizedString(@"WALK_TASK_TITLE", nil);
-            step.text = intendedUseDescription;
-            step.detailText = ORKLocalizedString(@"WALK_INTRO_TEXT", nil);
-            step.shouldTintImages = YES;
-            step.imageContentMode = UIViewContentModeCenter;
-            ORKStepArrayAddStep(steps, step);
+            
+            // Step 1: Video Instruction step
+            ORKVideoInstructionStep *videoInstructionStep = [[ORKVideoInstructionStep alloc] initWithIdentifier:ORKInstruction0StepIdentifier];
+            //let videoInstructionStep = ORKVideoInstructionStep(identifier: "videoInstructionStep")
+            videoInstructionStep.title = ORKLocalizedString(@"Step 1 - Watch Instructional Video", nil);
+            NSURL *URL = [NSURL URLWithString:@"https://drive.google.com/uc?export=download&id=1LjCf0_uV04k6En6eQBEwPL7wfzJIjHed"];
+            videoInstructionStep.videoURL = URL;
+            videoInstructionStep.thumbnailTime = 2; // Customizable thumbnail timestamp
+            ORKStepArrayAddStep(steps, videoInstructionStep);
+
         }
+        {
+                ORKTextChoice *textChoice1 = [ORKTextChoice choiceWithText:@"Have you cleared a 10-foot-long space with no throw rugs or obstructions?" value:@1];
+                ORKTextChoice *textChoice2 = [ORKTextChoice choiceWithText:@"Have you set up a chair on one side (ideally with arms)?" value:@2];
+                ORKTextChoice *textChoice3 = [ORKTextChoice choiceWithText:@"Are you wearing regular footwear?" value:@3];
+                ORKTextChoice *textChoice4 = [ORKTextChoice choiceWithText:@"Do you have someone present who can assist you if needed?" value:@4];
+            ORKTextChoice *textChoice5 = [ORKTextChoice choiceWithText:@"Have you put on the belt with pouch to hold your phone?" value:@5];
+        
+                NSArray *textChoices = @[textChoice1, textChoice2, textChoice3, textChoice4, textChoice5];
+        
+            ORKTextScaleAnswerFormat *scaleAnswerFormat = [ORKAnswerFormat choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleMultipleChoice textChoices:textChoices];
+
+            ORKQuestionStep *step = [ORKQuestionStep questionStepWithIdentifier:@"TextStep"
+                                                    title:@"Safety Checklist "
+                                                        question:@"Next, we need you to make sure the safety checklist is complete."
+                                                                             answer:scaleAnswerFormat];
+            
+            ORKStepArrayAddStep(steps, step);
+            }
+        
+        
         
         {
-            ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction1StepIdentifier];
-            step.title = ORKLocalizedString(@"WALK_TASK_TITLE", nil);
+            ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction2StepIdentifier];
+            step.title = ORKLocalizedString(@"Step 3", nil);
             step.text = [NSString localizedStringWithFormat:ORKLocalizedString(@"WALK_INTRO_2_TEXT_%ld", nil),numberOfStepsPerLeg];
             step.detailText = ORKLocalizedString(@"WALK_INTRO_2_DETAIL", nil);
             step.image = [UIImage imageNamed:@"pocket" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
@@ -932,6 +954,9 @@ NSString *const ORKShortWalkRestStepIdentifier = @"walking.rest";
     ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:identifier steps:steps];
     return task;
 }
+
+
+
 
 
 #pragma mark - walkBackAndForthTask
