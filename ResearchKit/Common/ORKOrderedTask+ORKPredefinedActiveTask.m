@@ -807,7 +807,7 @@ NSString *const ORKShortWalkRestStepIdentifier = @"walking.rest";
             ORKVideoInstructionStep *videoInstructionStep = [[ORKVideoInstructionStep alloc] initWithIdentifier:ORKInstruction0StepIdentifier];
             //let videoInstructionStep = ORKVideoInstructionStep(identifier: "videoInstructionStep")
             videoInstructionStep.title = ORKLocalizedString(@"Step 1 - Watch Instructional Video", nil);
-            NSURL *URL = [NSURL URLWithString:@"https://drive.google.com/uc?export=download&id=1LjCf0_uV04k6En6eQBEwPL7wfzJIjHed"];
+            NSURL *URL = [NSURL URLWithString:@"https://drive.google.com/uc?export=open&id=1dRJGpB1m7OzyxwFWkGOxyFdXagFUOahN"];
             videoInstructionStep.videoURL = URL;
             videoInstructionStep.thumbnailTime = 2; // Customizable thumbnail timestamp
             ORKStepArrayAddStep(steps, videoInstructionStep);
