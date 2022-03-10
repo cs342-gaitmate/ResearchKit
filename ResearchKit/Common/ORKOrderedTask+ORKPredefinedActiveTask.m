@@ -807,9 +807,9 @@ NSString *const ORKShortWalkRestStepIdentifier = @"walking.rest";
             ORKVideoInstructionStep *videoInstructionStep = [[ORKVideoInstructionStep alloc] initWithIdentifier:ORKInstruction0StepIdentifier];
             //let videoInstructionStep = ORKVideoInstructionStep(identifier: "videoInstructionStep")
             videoInstructionStep.title = ORKLocalizedString(@"Step 1 - Watch Instructional Video", nil);
-            NSURL *URL = [NSURL URLWithString:@"https://drive.google.com/uc?export=open&id=1dRJGpB1m7OzyxwFWkGOxyFdXagFUOahN"];
+            NSURL *URL = [NSURL URLWithString:@"https://drive.google.com/uc?export=download&id=1dRJGpB1m7OzyxwFWkGOxyFdXagFUOahN"];
             videoInstructionStep.videoURL = URL;
-            videoInstructionStep.thumbnailTime = 2; // Customizable thumbnail timestamp
+            //videoInstructionStep.thumbnailTime = 2; // Customizable thumbnail timestamp
             ORKStepArrayAddStep(steps, videoInstructionStep);
 
         }
@@ -836,22 +836,14 @@ NSString *const ORKShortWalkRestStepIdentifier = @"walking.rest";
         
         {
             ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction2StepIdentifier];
-            step.title = ORKLocalizedString(@"Step 3", nil);
-            step.text = [NSString localizedStringWithFormat:ORKLocalizedString(@"WALK_INTRO_2_TEXT_%ld", nil),numberOfStepsPerLeg];
-            step.detailText = ORKLocalizedString(@"WALK_INTRO_2_DETAIL", nil);
+            step.title = ORKLocalizedString(@"Final Instructions", nil);
+            step.text = ORKLocalizedString(@"Put your device in a pocket or bag. \nWalk up to 10 feet in a straight line.\nWalk back to your chair. \nSit down. \n \nClick the Start Button when you are ready.", nil);
             step.image = [UIImage imageNamed:@"pocket" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             step.shouldTintImages = YES;
             step.imageContentMode = UIViewContentModeCenter;
             ORKStepArrayAddStep(steps, step);
         }
-    }
-    
-    {
-        ORKCountdownStep *step = [[ORKCountdownStep alloc] initWithIdentifier:ORKCountdownStepIdentifier];
-        step.title = ORKLocalizedString(@"WALK_TASK_TITLE", nil);
-        step.stepDuration = 5.0;
-        
-        ORKStepArrayAddStep(steps, step);
+
     }
     
     {
@@ -872,76 +864,17 @@ NSString *const ORKShortWalkRestStepIdentifier = @"walking.rest";
             ORKWalkingTaskStep *walkingStep = [[ORKWalkingTaskStep alloc] initWithIdentifier:ORKShortWalkOutboundStepIdentifier];
             walkingStep.numberOfStepsPerLeg = numberOfStepsPerLeg;
             walkingStep.title = ORKLocalizedString(@"WALK_TASK_TITLE", nil);
-            walkingStep.text = [NSString localizedStringWithFormat:ORKLocalizedString(@"WALK_OUTBOUND_INSTRUCTION_FORMAT", nil), (long long)numberOfStepsPerLeg];
-            walkingStep.spokenInstruction = walkingStep.text;
+            
+           walkingStep.text = ORKLocalizedString(@"Walk up to 10 feet in a straight line.\nWalk back to your chair. \nSit down. \nClick the STOP Button", nil);
             walkingStep.recorderConfigurations = recorderConfigurations;
             walkingStep.shouldContinueOnFinish = YES;
-            walkingStep.optional = NO;
+            walkingStep.optional = YES;
             walkingStep.shouldStartTimerAutomatically = YES;
             walkingStep.stepDuration = numberOfStepsPerLeg * 1.5; // fallback duration in case no step count
             walkingStep.shouldVibrateOnStart = YES;
             walkingStep.shouldPlaySoundOnStart = YES;
             
             ORKStepArrayAddStep(steps, walkingStep);
-        }
-        
-        {
-            NSMutableArray *recorderConfigurations = [NSMutableArray array];
-            if (!(ORKPredefinedTaskOptionExcludePedometer & options)) {
-                [recorderConfigurations addObject:[[ORKPedometerRecorderConfiguration alloc] initWithIdentifier:ORKPedometerRecorderIdentifier]];
-            }
-            if (!(ORKPredefinedTaskOptionExcludeAccelerometer & options)) {
-                [recorderConfigurations addObject:[[ORKAccelerometerRecorderConfiguration alloc] initWithIdentifier:ORKAccelerometerRecorderIdentifier
-                                                                                                          frequency:100]];
-            }
-            if (!(ORKPredefinedTaskOptionExcludeDeviceMotion & options)) {
-                [recorderConfigurations addObject:[[ORKDeviceMotionRecorderConfiguration alloc] initWithIdentifier:ORKDeviceMotionRecorderIdentifier
-                                                                                                         frequency:100]];
-            }
-
-            ORKWalkingTaskStep *walkingStep = [[ORKWalkingTaskStep alloc] initWithIdentifier:ORKShortWalkReturnStepIdentifier];
-            walkingStep.numberOfStepsPerLeg = numberOfStepsPerLeg;
-            walkingStep.title = ORKLocalizedString(@"WALK_TASK_TITLE", nil);
-            walkingStep.text = [NSString localizedStringWithFormat:ORKLocalizedString(@"WALK_RETURN_INSTRUCTION_FORMAT", nil), (long long)numberOfStepsPerLeg];
-            walkingStep.spokenInstruction = walkingStep.text;
-            walkingStep.recorderConfigurations = recorderConfigurations;
-            walkingStep.shouldContinueOnFinish = YES;
-            walkingStep.shouldStartTimerAutomatically = YES;
-            walkingStep.optional = NO;
-            walkingStep.stepDuration = numberOfStepsPerLeg * 1.5; // fallback duration in case no step count
-            walkingStep.shouldVibrateOnStart = YES;
-            walkingStep.shouldPlaySoundOnStart = YES;
-            
-            ORKStepArrayAddStep(steps, walkingStep);
-        }
-        
-        if (restDuration > 0) {
-            NSMutableArray *recorderConfigurations = [NSMutableArray array];
-            if (!(ORKPredefinedTaskOptionExcludeAccelerometer & options)) {
-                [recorderConfigurations addObject:[[ORKAccelerometerRecorderConfiguration alloc] initWithIdentifier:ORKAccelerometerRecorderIdentifier
-                                                                                                          frequency:100]];
-            }
-            if (!(ORKPredefinedTaskOptionExcludeDeviceMotion & options)) {
-                [recorderConfigurations addObject:[[ORKDeviceMotionRecorderConfiguration alloc] initWithIdentifier:ORKDeviceMotionRecorderIdentifier
-                                                                                                         frequency:100]];
-            }
-
-            ORKFitnessStep *activeStep = [[ORKFitnessStep alloc] initWithIdentifier:ORKShortWalkRestStepIdentifier];
-            activeStep.recorderConfigurations = recorderConfigurations;
-            NSString *durationString = [formatter stringFromTimeInterval:restDuration];
-            activeStep.title = ORKLocalizedString(@"WALK_TASK_TITLE", nil);
-            activeStep.text = [NSString localizedStringWithFormat:ORKLocalizedString(@"WALK_STAND_INSTRUCTION_FORMAT", nil), durationString];
-            activeStep.spokenInstruction = [NSString localizedStringWithFormat:ORKLocalizedString(@"WALK_STAND_VOICE_INSTRUCTION_FORMAT", nil), durationString];
-            activeStep.shouldStartTimerAutomatically = YES;
-            activeStep.stepDuration = restDuration;
-            activeStep.shouldContinueOnFinish = YES;
-            activeStep.optional = NO;
-            activeStep.shouldVibrateOnStart = YES;
-            activeStep.shouldPlaySoundOnStart = YES;
-            activeStep.shouldVibrateOnFinish = YES;
-            activeStep.shouldPlaySoundOnFinish = YES;
-            
-            ORKStepArrayAddStep(steps, activeStep);
         }
     }
     

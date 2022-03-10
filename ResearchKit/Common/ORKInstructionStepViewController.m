@@ -159,7 +159,7 @@
 
 - (void)useAppropriateButtonTitleAsLastBeginningInstructionStep {
     if (self.continueButtonTitle ==  nil) {
-        self.internalContinueButtonItem.title = ORKLocalizedString(@"BUTTON_GET_STARTED", nil);
+        self.internalContinueButtonItem.title = ORKLocalizedString(@"BUTTON_NEXT", nil);
     }
 }
 

@@ -123,6 +123,7 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
     }
 }
 
+
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
     if (_handler && _started && status != kCLAuthorizationStatusNotDetermined) {
         [self finishWithResult:(status != kCLAuthorizationStatusDenied)];
@@ -1116,6 +1117,8 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         [strongDelegate taskViewController:self didFinishWithReason:reason error:error];
     }
 }
+
+
 
 - (void)presentCancelOptions:(BOOL)saveable sender:(id)sender {
     
