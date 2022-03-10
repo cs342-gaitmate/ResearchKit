@@ -805,14 +805,16 @@ NSString *const ORKShortWalkRestStepIdentifier = @"walking.rest";
             
             // Step 1: Video Instruction step
             ORKVideoInstructionStep *videoInstructionStep = [[ORKVideoInstructionStep alloc] initWithIdentifier:ORKInstruction0StepIdentifier];
+            
             //let videoInstructionStep = ORKVideoInstructionStep(identifier: "videoInstructionStep")
             videoInstructionStep.title = ORKLocalizedString(@"Step 1 - Watch Instructional Video", nil);
             NSURL *URL = [NSURL URLWithString:@"https://drive.google.com/uc?export=open&id=1dRJGpB1m7OzyxwFWkGOxyFdXagFUOahN"];
             videoInstructionStep.videoURL = URL;
+            
             videoInstructionStep.thumbnailTime = 2; // Customizable thumbnail timestamp
             ORKStepArrayAddStep(steps, videoInstructionStep);
-
         }
+        
         {
                 ORKTextChoice *textChoice1 = [ORKTextChoice choiceWithText:@"Have you cleared a 10-foot-long space with no throw rugs or obstructions?" value:@1];
                 ORKTextChoice *textChoice2 = [ORKTextChoice choiceWithText:@"Have you set up a chair on one side (ideally with arms)?" value:@2];
